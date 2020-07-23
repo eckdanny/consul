@@ -1,22 +1,18 @@
-/**
- * Subscribe represents our "streaming" subscription protocol.
- *
- * There is only one important RPC currently which models a generic description
- * to a topic-based pub-sub system. The state store published updates as Events.
- * The majority of this file is defining those event types.
- */
+/*
+Package event provides a service for subscribing to state change events.
+*/
 syntax = "proto3";
 
-package proto/events;
+package event;
 
-import "structs.proto";
+option go_package = "github.com/hashicorp/consul/proto/pbevent";
 
-// StateEvents
-// TODO: doc
-service StateEvents {
-    // Susbscribe is a generic event streaming mechanism used for efficiently
-    // requesting a specific result snapshot and then following updates that
-    // affect that snapshot.
+import "proto/pbservice/structs.proto";
+
+// StateChangeSubscription service allows consumers to subscribe to topics of
+// state change events. Events are streamed as they happen.
+service StateChangeSubscription {
+    // Subscribe to a topic to receive events when there are changes to the topic.
     // TODO: document how to handle framing events
     rpc Subscribe(SubscribeRequest) returns (stream Event) {}
 }
@@ -24,11 +20,13 @@ service StateEvents {
 // Topic enumerates the supported event topics.
 enum Topic {
     Unknown = 0;
+    // TODO: doc
     ServiceHealth = 1;
+    // TODO: doc
     ServiceHealthConnect = 2;
 }
 
-// SubscribeRequest is the type used to initiate a streaming Subscribe RPC.
+// SubscribeRequest used to subscribe to a topic.
 message SubscribeRequest {
     // Topic identifies the set of events the subscriber is interested in.
     Topic Topic = 1;
@@ -117,5 +115,5 @@ enum CatalogOp {
 
 message ServiceHealthUpdate {
     CatalogOp Op = 1;
-    // TODO: CheckServiceNode CheckServiceNode = 2;
+    pbservice.CheckServiceNode CheckServiceNode = 2;
 }
