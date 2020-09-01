@@ -50,9 +50,15 @@ The table below shows this endpoint's support for
   For a `SourceType` of `consul` this is the name of a Consul service. The
   service doesn't need to be registered.
 
+- `SourceNS` `(string: "")` <EnterpriseAlert inline /> - The namespace for the
+  `SourceName` parameter. 
+
 - `DestinationName` `(string: <required>)` - The destination of the intention.
   The intention destination is always a Consul service, unlike the source.
   The service doesn't need to be registered.
+
+- `DestinationNS` `(string: "")` <EnterpriseAlert inline /> - The namespace for the
+  `DestinationName` parameter. 
 
 - `SourceType` `(string: <required>)` - The type for the `SourceName` value.
   This can be only "consul" today to represent a Consul service.
@@ -60,7 +66,7 @@ The table below shows this endpoint's support for
 - `Action` `(string: <required>)` - This is one of "allow" or "deny" for
   the action that should be taken if this intention matches a request.
 
-- `Description` `(string: nil)` - Description for the intention. This is not
+- `Description` `(string: "")` - Description for the intention. This is not
   used for anything by Consul, but is presented in API responses to assist
   tooling.
 
@@ -366,9 +372,11 @@ The table below shows this endpoint's support for
 
 - `source` `(string: <required>)` - Specifies the source service. This
   is specified as part of the URL.
+  This can take [several forms](/docs/commands/intention#source-and-destination-naming).
 
 - `destination` `(string: <required>)` - Specifies the destination service. This
   is specified as part of the URL.
+  This can take [several forms](/docs/commands/intention#source-and-destination-naming).
 
 ### Sample Request
 
@@ -422,6 +430,7 @@ The table below shows this endpoint's support for
 
 - `name` `(string: <required>)` - Specifies a name to match. This parameter
   can be repeated for batching multiple matches.
+  This can take [several forms](/docs/commands/intention#source-and-destination-naming).
 
 ### Sample Request
 
