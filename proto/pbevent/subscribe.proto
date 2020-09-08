@@ -49,6 +49,11 @@ message SubscribeRequest {
     // client on subsequent re-connections such that the full snapshot doesn't
     // need to be resent if the client is up to date.
     uint64 Index = 4;
+
+    // Datacenter specifies the Consul datacenter the request is targeted at.
+    // If it's not the local DC (or empty) the server will forward the stream to
+    // the remote DC and proxy the results back.
+    string Datacenter = 5;
 }
 
 // Event describes a streaming update on a subscription. Events are used both to
