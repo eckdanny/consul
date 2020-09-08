@@ -14,7 +14,8 @@ const (
 	OpUpdate
 )
 
-type eventPayload struct {
+// EventPayload is used as the Payload for a stream.Event.
+type EventPayload struct {
 	Op  changeOp
 	Obj interface{}
 }
@@ -39,7 +40,7 @@ func serviceHealthSnapshot(s *Store, topic topic) stream.SnapshotFunc {
 			event := stream.Event{
 				Index: idx,
 				Topic: topic,
-				Payload: eventPayload{
+				Payload: EventPayload{
 					Op:  OpCreate,
 					Obj: &n,
 				},
@@ -320,7 +321,7 @@ func serviceHealthToConnectEvents(events ...stream.Event) []stream.Event {
 }
 
 func getPayloadCheckServiceNode(payload interface{}) *structs.CheckServiceNode {
-	ep, ok := payload.(eventPayload)
+	ep, ok := payload.(EventPayload)
 	if !ok {
 		return nil
 	}
@@ -440,7 +441,7 @@ func newServiceHealthEventRegister(
 		Topic: TopicServiceHealth,
 		Key:   sn.ServiceName,
 		Index: idx,
-		Payload: eventPayload{
+		Payload: EventPayload{
 			Op:  OpCreate,
 			Obj: csn,
 		},
@@ -467,7 +468,7 @@ func newServiceHealthEventDeregister(idx uint64, sn *structs.ServiceNode) stream
 		Topic: TopicServiceHealth,
 		Key:   sn.ServiceName,
 		Index: idx,
-		Payload: eventPayload{
+		Payload: EventPayload{
 			Op:  OpDelete,
 			Obj: csn,
 		},

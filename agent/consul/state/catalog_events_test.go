@@ -1394,7 +1394,7 @@ func newTestEventServiceHealthRegister(index uint64, nodeNum int, svc string) st
 		Topic: TopicServiceHealth,
 		Key:   svc,
 		Index: index,
-		Payload: eventPayload{
+		Payload: EventPayload{
 			Op: OpCreate,
 			Obj: &structs.CheckServiceNode{
 				Node: &structs.Node{
@@ -1462,7 +1462,7 @@ func newTestEventServiceHealthDeregister(index uint64, nodeNum int, svc string) 
 		Topic: TopicServiceHealth,
 		Key:   svc,
 		Index: index,
-		Payload: eventPayload{
+		Payload: EventPayload{
 			Op: OpDelete,
 			Obj: &structs.CheckServiceNode{
 				Node: &structs.Node{
